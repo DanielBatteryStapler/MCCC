@@ -1,0 +1,20 @@
+
+import "basicMath.h.sym";
+
+byte factorial(byte a){
+	if(a){
+		byte output;
+		byte last;
+		last = add(a, 0xFFFF);
+		last = factorial(last);
+		output = multiply(a, last);
+		return output;
+	}
+	return 1;
+}
+
+void main(){
+	byte answer;
+	answer = factorial(4);	
+	setReg(7, answer);
+}

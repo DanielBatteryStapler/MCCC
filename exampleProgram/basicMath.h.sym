@@ -1,0 +1,3 @@
+
+byte add(byte a, byte b);
+byte multiply(byte a, byte b);

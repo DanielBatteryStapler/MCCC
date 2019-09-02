@@ -1,0 +1,27 @@
+
+import "basicMath.h.sym";
+
+byte add(byte a, byte b){
+	setReg(4, a);
+	setReg(5, b);
+	setReg(6, 0);
+	byte c;
+	c = getReg(2);
+	return c;
+}
+
+byte multiply(byte a, byte b){
+	byte output;
+	output = 0;
+	setReg(6, 0);
+	while(a){
+		setReg(4, output);
+		setReg(5, b);
+		output = getReg(2);
+		
+		setReg(4, a);
+		setReg(5, 0xFFFF);
+		a = getReg(2);
+	}
+	return output;
+}

@@ -1,0 +1,138 @@
+//Single line comments do what you would expect, just like in C, C++, and many other languages
+//Multi comments using /* */ and not valid though
+//
+//A ".sym" file is made up of three different things:
+//
+//An import statement:
+//    import "file.h.sym";
+//This allows all functions declared in the "file.h.sym" file to be used in the current file
+//It is important to note that import is not the same thing as #include because import will automatically have "header guards" and not allow any infinite import loops
+//
+//A function declaration:
+//    byte add(byte a, byte b);
+//Function declarations function very similiar to those in C and C++ and they usually appear in header files(".h.sym" files)
+//
+//Or a function definition:
+//    byte add(byte a, byte b){
+//        //Statements...
+//    }
+//A function definition also works very similiar to those in C and C++: it's a function declaration but it also includes the function's code
+//
+//A final note about functions: MCCC symbolic language does support function overloading so:
+//    void foobar();
+//    void foobar(byte a);
+//Are two different function declarations with different signatures
+//
+//Finally, a function definition(and some other Statements) are made up of a series of Statements.
+//For this list [value] will be used to mean to mean:
+//    1. either a variable: (e.g.) a
+//    2. or an 16-byte constant which can take the form of:
+//        1. just a normal integer  (e.g.) 10
+//        2. a binary constant      (e.g.) 0b1010
+//        3. a hexadecimal constatnt(e.g.) 0xa
+//And [statements] to mean a list of more statements
+//
+//List of all valid statements:
+//    byte variable;                        //a variable declaration(byte is the only valid type for all variables)
+//    variable = [value];                   //a variable assignment
+//    foobar([value]...);                   //a function call with none to several arguments
+//    variable = foobar([value]...);        //a function call with none to several arguments with a captured return value
+//    if([value]){[statements]}             //an if statement, [value] will always evaluate to true if it does not equal 0
+//    while([value]){[statements]}          //a while statement, [value] will always evaluate to true if it does not equal 0
+//    break;                                //a break statement, will immediately "break" out of the most recent while statement
+//    return;                               //a return void statement, only valid in functions declared with a return type `void`
+//    return [value];                       //a return value statement, only valid in functions declared with a return type `byte`
+//
+//It is important to note that these are the *only* valid statements in the MCCC symbolic language, but because they are so similiar to C, C++, and other languages
+//it can be more useful to list out statements that are **not** valid in a ".h.sym" file.
+//
+//The following are all **invalid** statements:
+//    byte variable = [value];              //both declaring and setting a variable is not understood 
+//    byte sum = [value] + [value];         //the MCCC symbolic language includes no operators of any kind, everything must be defined using functions
+//    function(foobar([value]), [value]);   //nesting function calls is not valid
+//    if([value] == 0){[statements]}        //no logical operators work either
+//    int number;                           //the only valid type is `byte`, no other types exist and there are no user-defined types
+//                                          //in addition to this, MCCC has no concept of global variables. All variables must be locally defined
+//
+//The MCCC symbolic language is very limited and has some harsh restrictions, but not without reason. By having these harsh restrictions the language is extremely quick to learn
+//and its small scope means that it's possible to have a deep understanding of all of it's components.
+//
+//Finally, the MCCC symbolic language has only two built-in functions that the compiler will treat specially:
+//    setReg([constant], [value]);          //sets input register #[constant] to be [value]
+//    [variable] = getReg([constant]);      //sets the variable [variable] to the value of output register #[constant]
+//                                          //note that in both cases the [constant] must be an integer constant and not a variable
+//                                          //the [value] in setReg can be a variable though
+//
+//
+//Here's a simple example program to show things working in practice
+//this program is going to multiply two numbers, 6 and 7, and then output it on the output monitor
+
+byte add(byte a, byte b);//we're going to need these two functions later, but we're going to just declare them first
+byte multiply(byte a, byte b);
+
+void main(){//just like in a lot of other languages, there is a main function
+            //unlike some other languages though, the main function returns void and take in no arguments
+    
+    byte result;//we're going to store the results of the multiplication in here
+    result = multiply(6, 7);//just call the multiply function with the correct arguments
+    //now that we have the result we can just put it on the output monitor
+    setReg(7, result);//register 7 is the output monitor, for a full list of registers consult the MCCC assembly language syntax explanation
+}
+
+//now we have to define add using the ALU
+byte add(byte a, byte b){
+    setReg(4, a);//put in the two numbers we need to add
+	setReg(5, b);
+	setReg(6, 0);//put the ALU into addition mode
+	byte c;
+	c = getReg(2);//save the result to a variable and then return it
+	return c;
+}
+
+//multiply is going to be a bit trickier because the ALU has no multiplication mode,
+//so this multiplication is going to be defined using repeated addition
+byte multiply(byte a, byte b){
+    byte output;
+    output = 0;//make a variable to hold the result
+    //the way this is going to actually compute the result is by adding a to output b times
+    while(b){//this means while(b != 0){...}
+        output = add(output, a);//add a to output
+        b = add(b, 0xFFFF);//subtract one from b
+        //this will keep adding a to output until b is zero
+        
+        //Note: it might seem weird but adding 0xFFFF to a number is the same as subtracting one for a 16-bit value
+    }
+    
+    return output;//return the final result
+}
+
+
+//now to compile run this program there are three steps:
+//compile the program using the "compile" action in MCCC
+//    ./MCCC compile example.sym
+//will compile the program to example.sym.asm
+//link this program into an executable using the "exeLink" action
+//    ./MCCC exeLink example.asm.out example.sym.asm
+//now this file can be assembled into the final rom using the "assemble" action
+//    ./MCCC assemble example.rom example.asm.out
+//This rom file can be loaded directly into Logism Evolution and ran on the CPU there.
+//
+//If you want to debug this program and see the callstack then do the steps above except instead of assembling example.asm.out into example.rom
+//you can run it in MCCC using the "debug" action
+//    ./MCCC debug example.asm.out
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
