@@ -11,7 +11,7 @@
 //    ["doThing();" "file.sym":5]
 //
 //Context markers are used by the debugger and compiler and do not have a stable syntax, so
-//it's not the best idea to be using them.
+//it's not the best idea to write them by hand.
 //
 //All white space is ignored in .asm files, besides for delimiting, and tabs are just for readability and have no
 //special meaning to the assembler

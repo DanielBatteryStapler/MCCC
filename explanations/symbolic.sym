@@ -1,5 +1,5 @@
-//Single line comments do what you would expect, just like in C, C++, and many other languages
-//Multi comments using /* */ and not valid though
+//Single line comments do what you would expect just like in C, C++, and many other languages
+//Multiline comments using /* */ are not valid though
 //
 //A ".sym" file is made up of three different things:
 //
@@ -10,7 +10,7 @@
 //
 //A function declaration:
 //    byte add(byte a, byte b);
-//Function declarations function very similiar to those in C and C++ and they usually appear in header files(".h.sym" files)
+//Function declarations function very similiar to those in C and C++ and they commonly appear in header files(".h.sym" files)
 //
 //Or a function definition:
 //    byte add(byte a, byte b){
@@ -18,32 +18,32 @@
 //    }
 //A function definition also works very similiar to those in C and C++: it's a function declaration but it also includes the function's code
 //
-//A final note about functions: MCCC symbolic language does support function overloading so:
+//A final note about functions: MCCC symbolic language does support function overloading. For example:
 //    void foobar();
 //    void foobar(byte a);
 //Are two different function declarations with different signatures
 //
-//Finally, a function definition(and some other Statements) are made up of a series of Statements.
-//For this list [value] will be used to mean to mean:
+//A function definition(and some other Statements) are made up of a series of Statements.
+//For this list [value] will be used to mean:
 //    1. either a variable: (e.g.) a
 //    2. or an 16-byte constant which can take the form of:
 //        1. just a normal integer  (e.g.) 10
 //        2. a binary constant      (e.g.) 0b1010
-//        3. a hexadecimal constatnt(e.g.) 0xa
-//And [statements] to mean a list of more statements
+//        3. a hexadecimal constant (e.g.) 0xa
+//And [statements] will mean a list of zero or more statements
 //
 //List of all valid statements:
 //    byte variable;                        //a variable declaration(byte is the only valid type for all variables)
 //    variable = [value];                   //a variable assignment
 //    foobar([value]...);                   //a function call with none to several arguments
 //    variable = foobar([value]...);        //a function call with none to several arguments with a captured return value
-//    if([value]){[statements]}             //an if statement, [value] will always evaluate to true if it does not equal 0
-//    while([value]){[statements]}          //a while statement, [value] will always evaluate to true if it does not equal 0
+//    if([value]){[statements]}             //an if statement, [value] will evaluate to true if it does not equal 0
+//    while([value]){[statements]}          //a while statement, [value] will evaluate to true if it does not equal 0
 //    break;                                //a break statement, will immediately "break" out of the most recent while statement
 //    return;                               //a return void statement, only valid in functions declared with a return type `void`
 //    return [value];                       //a return value statement, only valid in functions declared with a return type `byte`
 //
-//It is important to note that these are the *only* valid statements in the MCCC symbolic language, but because they are so similiar to C, C++, and other languages
+//It is important to note that these are the *only* valid statements in the MCCC symbolic language, but because they are so similiar to ones in C, C++, and other languages
 //it can be more useful to list out statements that are **not** valid in a ".h.sym" file.
 //
 //The following are all **invalid** statements:
@@ -71,7 +71,7 @@ byte add(byte a, byte b);//we're going to need these two functions later, but we
 byte multiply(byte a, byte b);
 
 void main(){//just like in a lot of other languages, there is a main function
-            //unlike some other languages though, the main function returns void and take in no arguments
+            //unlike some other languages though, the main function returns void and takes in no arguments
     
     byte result;//we're going to store the results of the multiplication in here
     result = multiply(6, 7);//just call the multiply function with the correct arguments
