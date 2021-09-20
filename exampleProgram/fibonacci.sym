@@ -1,0 +1,39 @@
+
+import "basicMath.h.sym";
+
+byte equals(byte a, byte b){
+	setReg(4, a);
+	setReg(5, b);
+	setReg(6, 2);
+	byte c;
+	c = getReg(2);
+	return c;
+}
+
+byte fibonacci(byte a){
+	byte t;
+	t = equals(a, 0);
+	if(t){
+		return 0;
+	}
+	t = equals(a, 1);
+	if(t){
+		return 1;
+	}
+	byte last;
+	last = add(a, 0xFFFF);
+	byte lastlast;
+	lastlast = add(last, 0xFFFF);
+	
+	byte answer;
+	answer = fibonacci(last);
+	t = fibonacci(lastlast);
+	answer = add(answer, t);
+	return answer;
+}
+
+void main(){
+	byte answer;
+	answer = fibonacci(10);	
+	setReg(7, answer);
+}

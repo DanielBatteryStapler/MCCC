@@ -68,10 +68,8 @@ int main(int argc, char* argv[]) {
 	}
 	catch(std::exception& e){
 		std::cout << "Error: " << e.what() << "\n";
+		return 1;
 	}
-	
-	///TODO fix the fact that GOTOs in Whiles and Ifs can collide with each other if they are not compiled at the same time
-	//to fix this just add in some more data into the GOTO name that will be unique across files
 	
 	return 0;
 }
